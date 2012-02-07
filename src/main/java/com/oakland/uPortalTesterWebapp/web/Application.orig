@@ -1,0 +1,98 @@
+package com.mycompany.mywebapp.web;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+public class Application {
+
+	@RequestMapping(value="/",method=RequestMethod.GET)
+	public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
+		String dave = "http://localhost:8080/";
+		ModelAndView home = new ModelAndView("home");
+
+		boolean results;
+		try{
+			results = doHttpUrlConnectionAction(dave);
+		}catch(Exception e){
+			results = false;
+			home.addObject("e", getTraceString(e));
+		}
+			
+		home.addObject("message", results);
+		return home;
+	}
+	
+	private String getTraceString(Exception e){
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		
+		e.printStackTrace(pw);
+		
+		return sw.toString();
+	}
+
+	private boolean doHttpUrlConnectionAction(String desiredUrl) throws Exception {
+		URL url = null;
+		BufferedReader reader = null;
+		StringBuilder stringBuilder = null;
+
+		try {
+			// create the HttpURLConnection
+			url = new URL(desiredUrl);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+			// just want to do an HTTP GET here
+			connection.setRequestMethod("GET");
+
+			// uncomment this if you want to write output to this url
+			// connection.setDoOutput(true);
+
+			// give it 15 seconds to respond
+			connection.setReadTimeout(60 * 1000);
+			connection.connect();
+
+			// read the output from the server
+			reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			stringBuilder = new StringBuilder();
+
+			String line = null;
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line);
+				if(line.contains("html"))
+					return true;
+			}
+//			System.out.println(stringBuilder.toString());
+
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			// close the reader; this can throw an exception too, so
+			// wrap it in another try/catch block.
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+				
+			}//End If
+		}//End Finally
+		
+	}
+}
