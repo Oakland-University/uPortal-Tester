@@ -3,9 +3,6 @@ package edu.oakland.uPortalTesterWebapp.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,11 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import java.io.IOException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.springframework.stereotype.Service;
 
 @Controller
 public class Application {
@@ -42,9 +36,9 @@ public class Application {
 
     private boolean getRunning() {
 	    Document document = getDocument("http://localhost:8080/uPortal");
-	    if((document.getElementById("portal").html()).length()>0){
+	    if ( ( document.getElementById("portal").html() ).length() > 0 ) {
 		    return true;
-	    }else{
+	    } else {
 		    return false;
 	    }
     }
