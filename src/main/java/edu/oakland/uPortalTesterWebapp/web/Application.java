@@ -14,6 +14,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.IOException;
+
 @Controller
 public class Application {
 
@@ -27,18 +29,27 @@ public class Application {
     }
 
     private boolean getRunning() {
+        Process child = null;
         try {
-            //Process child = Runtime.getRuntime().exec("wget -q -O - \"$@\" http://localhost:8080/uPortal | grep \"eBill\" >> /dev/null && echo \"Found\"");
-            Process child = Runtime.getRuntime().exec("wget -q -O - \"$@\" http://localhost:8080/uPortal");
+            child = Runtime.getRuntime().exec("wget -q -O - \"$@\" http://localhost:8080/uPortal");
             BufferedReader input = new BufferedReader(new InputStreamReader(child.getInputStream()));
 
             String temp;
             while((temp = input.readLine()) != null)
                 if(temp.contains("eBill"))
                     return true;
-        } catch (Exception e) {
+	}
+	catch (IOException e) { 
             e.printStackTrace();
         }
+	catch (Exception e) { 
+            e.printStackTrace();
+        }
+        finally { 
+            if (child != null) {
+              child.destroy();
+	    }
+	}
 
         return false;
     }
