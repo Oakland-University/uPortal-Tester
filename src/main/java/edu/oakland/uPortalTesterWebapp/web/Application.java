@@ -16,10 +16,22 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.springframework.stereotype.Service;
+
 @Controller
 public class Application {
 
     private static final Log log = LogFactory.getLog(Application.class);
+
+    private Document getDocument(String url){
+        try{
+            return Jsoup.connect(url).get();
+        }catch(Exception e){
+            throw new IllegalArgumentException("Invalid url.");
+        }
+    }
 
     @RequestMapping(value="/", method=RequestMethod.GET)
     public ModelAndView home(HttpServletRequest request, HttpServletResponse response) {
@@ -29,28 +41,11 @@ public class Application {
     }
 
     private boolean getRunning() {
-        Process child = null;
-        try {
-            child = Runtime.getRuntime().exec("wget -q -O - \"$@\" http://localhost:8080/uPortal");
-            BufferedReader input = new BufferedReader(new InputStreamReader(child.getInputStream()));
-
-            String temp;
-            while((temp = input.readLine()) != null)
-                if(temp.contains("eBill"))
-                    return true;
-	}
-	catch (IOException e) { 
-            e.printStackTrace();
-        }
-	catch (Exception e) { 
-            e.printStackTrace();
-        }
-        finally { 
-            if (child != null) {
-              child.destroy();
+	    Document document = getDocument("http://localhost:8080/uPortal");
+	    if((document.getElementById("portal").html()).length()>0){
+		    return true;
+	    }else{
+		    return false;
 	    }
-	}
-
-        return false;
     }
 }
