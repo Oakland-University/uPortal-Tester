@@ -51,7 +51,7 @@
         <append>false</append>
         <file>${environment.build.log.logfileDirectory}/uPortalTester.log</file>
         <encoder>
-            <pattern>${environment.build.logback.layoutConversionPattern}</pattern>
+            <pattern>${environment.build.log.layoutConversionPattern}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${environment.build.log.logfileDirectory}/uPortalTester.log.%d{${environment.build.log.rollingLogFileDatePattern}}</fileNamePattern>
