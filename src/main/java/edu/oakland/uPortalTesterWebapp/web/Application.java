@@ -25,8 +25,8 @@ public class Application {
             return Jsoup.connect(url).get();
         } catch(Exception e) {
             log.error("Exception: getDocument: ", e);
-            log.error("Returning new Document to fail gracefully.");
-            return new Document("");
+            log.error("Returning null Document to fail gracefully.");
+            return null;
         }
     }
 
@@ -44,11 +44,10 @@ public class Application {
         }
 
         Document document = getDocument("http://localhost:8080/uPortal");
-        try {
-            return (document.getElementById("portal").html() ).length() > 0 ? true : false;
-        } catch (Exception e) {
-            log.error(e);
+        if(document == null) {
             return false;
         }
+
+        return (document.getElementById("portal").html() ).length() > 0;
     }
 }
