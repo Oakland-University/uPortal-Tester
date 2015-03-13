@@ -18,6 +18,7 @@ Required:
 - Maven 3+
 - uPortal 4.1 (can be configured to work with other versions)
 
+Compiling and Deploying:
 - Clone this project
 - mvn clean package
 - Deploy the war file in target to your servlet container
@@ -31,7 +32,7 @@ in file: src/main/java/edu/oakland/uPortalTesterWebapp/web/Application.java
 
 Change portalPageBody in the following block to whatever ID you want to look for 
 and recompile and redeploy the app.
-return (document.getElementById("portalPageBody").html() ).length() > 0;
+> return (document.getElementById("portalPageBody").html() ).length() > 0;
 
 Getting Involved
 ----------------
