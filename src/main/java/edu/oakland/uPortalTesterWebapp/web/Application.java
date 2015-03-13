@@ -48,6 +48,6 @@ public class Application {
             return false;
         }
 
-        return (document.getElementById("portal").html() ).length() > 0;
+        return (document.getElementById("portalPageBody").html() ).length() > 0;
     }
 }
