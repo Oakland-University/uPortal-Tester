@@ -49,17 +49,17 @@
         <!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy-->
         <!--for further documentation-->
         <append>false</append>
-        <file>${environment.build.log.logfileDirectory}/uPortalTester.log</file>
+        <file>${catalina.base}/logs/uPortalTester.log</file>
         <encoder>
-            <pattern>${environment.build.log.layoutConversionPattern}</pattern>
+            <pattern>%-5level [%thread] %logger{36} %d{ISO8601} - %msg%n</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${environment.build.log.logfileDirectory}/uPortalTester.log.%d{${environment.build.log.rollingLogFileDatePattern}}</fileNamePattern>
+            <fileNamePattern>${catalina.base}/logs/uPortalTester.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>28</maxHistory>
         </rollingPolicy>
     </appender>
-    <logger name="edu.oakland" level="${environment.build.log.rootLevel}"/>
-    <root level="${environment.build.log.rootLevel}">
+    <logger name="edu.oakland" level="INFO"/>
+    <root level="INFO">
         <appender-ref ref="uPortalTester"/>
     </root>
 </configuration>
