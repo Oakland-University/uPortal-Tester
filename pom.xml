@@ -13,22 +13,13 @@
   <packaging>war</packaging>
   <version>1.0.0-SNAPSHOT</version>
   <name>uPortalTester</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
     <logback.version>1.0.13</logback.version>
     <slf4j.version>1.7.5</slf4j.version>
-    <spring-framework.version>3.2.4.RELEASE</spring-framework.version>
+    <spring-framework.version>3.2.14.RELEASE</spring-framework.version>
     <jsoup.version>1.7.3</jsoup.version>
   </properties>
-
-  <repositories>
-    <repository>
-      <id>spring-milestone</id>
-      <name>Spring Portfolio Milestone Repository</name>
-      <url>http://s3.amazonaws.com/maven.springframework.org/milestone</url>
-    </repository>
-  </repositories>
 
   <dependencyManagement>
     <dependencies>
