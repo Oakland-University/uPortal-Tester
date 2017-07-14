@@ -20,7 +20,7 @@ Required:
 
 Compiling and Deploying:
 - Clone this project
-- mvn clean package
+- `mvn clean package`
 - Deploy the war file in target to your servlet container
 
 That's it!
